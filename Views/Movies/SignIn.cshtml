@@ -1,0 +1,40 @@
+﻿@model MovieTicket.Models.SignInViewModel
+
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-4 offset-4 border border-primary rounded pb-2">
+            <div class="text-center">
+                <h1 class="text-info">User Log In</h1>
+            </div>
+            <h6 class="text-success text-center">@TempData["SuccessMsg"]</h6>
+
+            <form method="post" asp-action="SignIn">
+                <div class="form-group" >
+                    <label asp-for="Email"></label>
+                    <input type="email" asp-for="Email" placeholder="Enter Email" class="form-control" autocomplete="off" />
+                    <span class="text-danger">@TempData["emailErrorMsg"]</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input type="password" asp-for="Password" placeholder="Enter Password" class="form-control" autocomplete="off" />
+                    <span class="text-danger">@TempData["passwordErrorMsg"]</span>
+                </div>
+                <div class="form-group">
+                    <center>
+                        <input type="submit" class="btn btn-primary mt-2" value="Log In" />
+                    </center>
+                </div>
+            </form>
+            <div class="text-center">
+                <a class="text-center" asp-action="SignUp">Create New Account?</a>
+            </div>
+            <div class="text-center">
+                <a class="text-center" asp-action="ResetPassword">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+</div>
