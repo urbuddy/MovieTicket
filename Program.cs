@@ -9,12 +9,18 @@ builder.Services.AddDbContext<MovieTicketContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
 {
     option.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     option.LoginPath = "/Movies/SignIn";
     option.AccessDeniedPath = "/Movies/SignIn";
 });
+
 builder.Services.AddSession(option =>
 {
     option.IdleTimeout = TimeSpan.FromMinutes(5);
@@ -38,6 +44,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
+app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 

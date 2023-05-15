@@ -5,6 +5,12 @@
 }
 
 <h1>Movie's List</h1>
+@if (User.Identity!.IsAuthenticated && User.IsInRole("admin"))
+{
+    <p>
+        <a asp-action="Create">Add New Movie</a>
+    </p>
+}
 <form asp-controller="Movies" asp-action="Index">
     <p>
         <select asp-for="MovieGenre" asp-items="Model.Genres">
@@ -48,7 +54,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>                    
-                @if (User.Identity!.IsAuthenticated)
+                @if (User.Identity!.IsAuthenticated && User.IsInRole("admin"))
                 {
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieTicket.Data;
 
@@ -11,9 +12,11 @@ using MovieTicket.Data;
 namespace MovieTicket.Migrations
 {
     [DbContext(typeof(MovieTicketContext))]
-    partial class MovieTicketContextModelSnapshot : ModelSnapshot
+    [Migration("20230514182609_RoleForiegnKeyInUserTable")]
+    partial class RoleForiegnKeyInUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

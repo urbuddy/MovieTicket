@@ -7,5 +7,6 @@ namespace MovieTicket.Data
         public MovieTicketContext (DbContextOptions<MovieTicketContext> options) : base(options) { }
         public DbSet<MovieTicket.Models.Movie> Movies { get; set;}
         public DbSet<MovieTicket.Models.User> Users { get; set;}
+        public DbSet<MovieTicket.Models.Role> Roles { get; set;}
     }
 }
