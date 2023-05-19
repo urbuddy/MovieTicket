@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieTicket.Models
 {
@@ -7,6 +8,7 @@ namespace MovieTicket.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [Remote(action: "RoleIsExists", controller: "Movies")]
         public string? Name { get; set; }
     }
 }

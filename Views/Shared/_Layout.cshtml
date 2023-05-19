@@ -36,7 +36,7 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div class="navbar float-end">
-                        <span>Welcome </span><span class="text-success fw-bold p-2">@User.Identity.Name</span><a class="btn btn-sm btn-danger fw-bold" asp-action="LogOut">Sign Out</a>
+                        <span>Welcome </span><span class="text-success fw-bold p-2">@User.Identity.Name</span><a class="btn btn-sm btn-danger fw-bold" asp-controller="Movies" asp-action="LogOut">Sign Out</a>
                     </div>
                 }
                 else

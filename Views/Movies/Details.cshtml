@@ -43,6 +43,8 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-sm btn-primary fw-bold" asp-controller="Movies" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-controller="Feedback" asp-action="Add" asp-route-id="@Model?.Id">Add Ratings & Reviews </a> |
+    <a asp-controller="Feedback" asp-action="Index" asp-route-id="@Model?.Id">Ratings & Reviews</a> |
+    <a asp-controller="Movies" asp-action="Index">Back to List</a>
 </div>

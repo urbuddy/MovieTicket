@@ -1,0 +1,40 @@
+﻿@model MovieTicket.Models.Feedback
+
+@{
+    ViewData["Title"] = "Edit Review";
+}
+
+<h1>@Html.DisplayFor(model => model.Movie!.Title)</h1>
+<h4>Edit Rating and Review</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Movie" />
+            <div class="form-group">
+                <label asp-for="Rating" class="control-label"></label><br />
+                <label>0&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;5</label><br />
+                <input asp-for="Rating" type="range" min="0" max="5" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Review" class="control-lable mb-2"></label>
+                <textarea asp-for="Review" class="form-control mb-1" rows="4" cols="50"></textarea>
+                <span asp-validation-for="Review" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-id ="@Model.Movie!.Id" >Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

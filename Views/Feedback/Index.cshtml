@@ -1,0 +1,56 @@
+﻿@model IEnumerable<MovieTicket.Models.Feedback>
+
+@{
+    ViewData["Title"] = "Ratings and Reviews";
+}
+<span class="text-danger">@TempData["updateMsg"]</span>
+<h1>
+    @TempData["movieName"]
+</h1>
+<h4>
+    Ratings and Reviews
+</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Review)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UploadedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User!.FirstName) @Html.DisplayFor(modelItem => item.User!.LastName)
+                </td>
+                    <td style="word-wrap: break-word;">
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)/5
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UploadedAt)
+                </td>
+                <td>
+                        @if (User.IsInRole("admin") || User.Identity!.Name!.Contains(item.User!.FirstName!))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit |</a> 
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

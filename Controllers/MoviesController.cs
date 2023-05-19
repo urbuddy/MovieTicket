@@ -163,12 +163,19 @@ namespace MovieTicket.Controllers
                 return Problem("Entity set 'MovieTicketContext.Movie'  is null.");
             }
             var movie = await _context.Movies.FindAsync(id);
-            if (movie != null)
+            try
             {
-                _context.Movies.Remove(movie);
+                if (movie != null)
+                {
+                    _context.Movies.Remove(movie);
+                    await _context.SaveChangesAsync();
+                }
             }
-
-            await _context.SaveChangesAsync();
+            catch (Exception ex)
+            {
+                TempData["movieDeleteError"] = "Movie record is in use!";
+                Console.WriteLine(ex.Message);
+            }
             return RedirectToAction(nameof(Index));
         }
 
@@ -232,6 +239,8 @@ namespace MovieTicket.Controllers
                     {
                         var identity = new ClaimsIdentity(new[] {
                             new Claim(ClaimTypes.Name, (user.FirstName!+" "+user.LastName!)),
+                            new Claim(ClaimTypes.Email, user.Email!),
+                            new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.Id)),
                             new Claim(ClaimTypes.Role, user.Role!.Name!)
                         }, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principle = new ClaimsPrincipal(identity);
@@ -307,6 +316,20 @@ namespace MovieTicket.Controllers
             return View(data);
         }
 
+        [AcceptVerbs("Post", "Get")]
+        public IActionResult RoleIsExists(string? name)
+        {
+            var role = _context.Roles.Where(e => e.Name == name).SingleOrDefault();
+            if (role != null)
+            {
+                return Json($"Role is already in use!");
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
+
         [Authorize(Roles = "admin")]
         public IActionResult RoleIndex()
         {
@@ -319,6 +342,49 @@ namespace MovieTicket.Controllers
                          select r;
 
             return View(roles);
+        }
+
+        // GET: /Movies/DeleteRole/Id?
+        [Authorize(Roles = "admin")]
+        public IActionResult DeleteRole(int? id) 
+        {
+            if (_context.Roles == null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Role' is null");
+            }
+            var role = _context.Roles.FirstOrDefault(e => e.Id == id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+            return View(role);
+        }
+
+        // POST: /Movies/DeleteRole/Id?
+        [Authorize(Roles = "admin")]
+        [HttpPost, ActionName("DeleteRole")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteRoleConfirmed(int? id)
+        {
+            if (_context.Roles == null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Role' is null");
+            }
+            var role = _context.Roles.Find(id);
+            try
+            {
+                if (role != null)
+                {
+                    _context.Roles.Remove(role);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["deleteRoleError"] = "Role record is in use!";
+                Console.WriteLine(ex.Message);
+            }
+            return RedirectToAction("RoleIndex");
         }
 
         [Authorize(Roles = "admin")]
@@ -465,12 +531,19 @@ namespace MovieTicket.Controllers
                 return Problem("Entity set 'MovieTicketContext.User'  is null.");
             }
             var user = await _context.Users.FindAsync(id);
-            if (user != null)
+            try
             {
-                _context.Users.Remove(user);
+                if (user != null)
+                {
+                    _context.Users.Remove(user);
+                    await _context.SaveChangesAsync();
+                }
             }
-
-            await _context.SaveChangesAsync();
+            catch (Exception ex)
+            {
+                TempData["userDeleteError"] = "User record is in use!";
+                Console.WriteLine(ex.Message);
+            }
             return RedirectToAction(nameof(UserIndex));
         }
     }

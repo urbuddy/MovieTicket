@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieTicket.Models
 {
@@ -10,6 +11,7 @@ namespace MovieTicket.Models
         public string? FirstName { get; set; }
         [Display(Name = "Last Name")]
         public string? LastName { get; set; }
+        [Remote(action: "EmailIsNotExists", controller: "Movies")]
         public string? Email { get; set; }
         [Display(Name = "Mobile No.")]
         public long? Mobile { get; set; }

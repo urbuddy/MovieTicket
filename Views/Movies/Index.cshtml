@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Movie's List";
 }
-
+<span class="text-danger">@TempData["movieDeleteError"]</span>
 <h1>Movie's List</h1>
 @if (User.Identity!.IsAuthenticated && User.IsInRole("admin"))
 {
