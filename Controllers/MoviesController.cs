@@ -273,6 +273,7 @@ namespace MovieTicket.Controllers
             return View();
         }
 
+        // Model field data verification method
         [AcceptVerbs("Post", "Get")]
         public IActionResult EmailIsNotExists(string? email)
         {
@@ -287,6 +288,7 @@ namespace MovieTicket.Controllers
             }
         }
 
+        // GET: Movies/LogOut
         [Authorize(Roles = "admin,customer")]
         public IActionResult LogOut()
         {
@@ -316,6 +318,7 @@ namespace MovieTicket.Controllers
             return View(data);
         }
 
+        // Model field data verification method
         [AcceptVerbs("Post", "Get")]
         public IActionResult RoleIsExists(string? name)
         {
@@ -330,6 +333,7 @@ namespace MovieTicket.Controllers
             }
         }
 
+        //GET: /Movies/RoleInex
         [Authorize(Roles = "admin")]
         public IActionResult RoleIndex()
         {
@@ -387,6 +391,7 @@ namespace MovieTicket.Controllers
             return RedirectToAction("RoleIndex");
         }
 
+        //GET: /Movies/UserIndex
         [Authorize(Roles = "admin")]
         public IActionResult UserIndex()
         {
@@ -403,7 +408,7 @@ namespace MovieTicket.Controllers
             return View(users);
         }
 
-
+        //GET: /Movies/CreateUser
         [Authorize(Roles = "admin")]
         public IActionResult CreateUser()
         {

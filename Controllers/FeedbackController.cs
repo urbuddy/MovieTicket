@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MovieTicket.Data;
 using MovieTicket.Models;
@@ -19,7 +17,6 @@ namespace MovieTicket.Controllers
         }
 
         // GET: /Feedback/Id?
-        [Authorize]
         public IActionResult Index(int? id)
         {
             if (id == null)
@@ -98,6 +95,7 @@ namespace MovieTicket.Controllers
                 return NotFound();
             }
             var feedback = await _context.Feedbacks.Include(x => x.Movie).Include(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
+            TempData["movieId"] = feedback!.Movie!.Id;
             if (feedback == null)  
             {
                 return NotFound();
@@ -119,7 +117,7 @@ namespace MovieTicket.Controllers
                 try
                 {
                     data.UploadedAt = DateTime.UtcNow;
-                    _context.Update(data);
+                    _context.Feedbacks.Update(data);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -133,7 +131,7 @@ namespace MovieTicket.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index", "Movies");
+                return RedirectToAction("Index", new { @id = TempData["movieId"] });
             }
             return View(data);
         }
@@ -158,7 +156,7 @@ namespace MovieTicket.Controllers
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int? id, Feedback data)
         {
             if (_context.Feedbacks == null)
             {
@@ -170,7 +168,7 @@ namespace MovieTicket.Controllers
                 _context.Feedbacks.Remove(feedback);
             }
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Movies");
+            return RedirectToAction("Index", new { @id = data.Movie!.Id });
         }
     }
 }
